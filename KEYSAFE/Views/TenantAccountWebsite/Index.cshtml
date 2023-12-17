@@ -1,0 +1,69 @@
+﻿@*@model IEnumerable<KEYSAFE.Models.TenantAccountWebsites>*@
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="item-list">
+    <thead>
+        <tr>
+            <th>
+                Created Date
+            </th>
+            <th>
+                Updated Date
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Url
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+</table>
+
+<script>
+    $.ajax({
+        "type": "GET",
+        "url": "/TenantAccountWebsite/GetTenantAccountWebsites",
+        "datatype": "json",
+        "traditional": true
+    }).done(function (data, err) {
+        data = JSON.parse(data);
+        $("#item-list").DataTable({
+            "data": data,
+            "datatype": "json",
+            "destroy": true,
+            "columns": [
+                { data: 'CreatedDate' },
+                { data: 'UpdatedDate' },
+                { data: 'Name' },
+                { data: 'Url' },
+                { data: 'Status' },
+                {
+                    data: null,
+                    render: function (data, type, row) {
+                        return '<a href="/TenantAccountWebsite/Edit/' + row.SysId + '">Edit</a> <a href="/TenantAccountWebsite/Details/' + row.SysId + '">View</a> <a href="/TenantAccountWebsite/Delete/' + row.SysId + '">Delete</a>';
+                    }
+                }
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        })
+        console.log(err)
+    })
+</script>

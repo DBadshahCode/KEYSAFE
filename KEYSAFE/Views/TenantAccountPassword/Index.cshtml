@@ -1,0 +1,97 @@
+﻿@*@model IEnumerable<KEYSAFE.Models.TenantAccountPasswords>*@
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="item-list">
+    <thead>
+        <tr>
+            <th>
+                Created Date
+            </th>
+            <th>
+                Updated Date
+            </th>
+            <th>
+                Account
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Length
+            </th>
+            <th>
+                Generated
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+</table>
+
+<script>
+    $.ajax({
+        "type": "GET",
+        "url": "/TenantAccountPassword/GetTenantAccountPasswords",
+        "datatype": "json",
+        "traditional": true
+    }).done(function (data, err) {
+        data = JSON.parse(data);
+        $("#item-list").DataTable({
+            "data": data,
+            "datatype": "json",
+            "destroy": true,
+            "columns": [
+                { data: 'CreatedDate' },
+                { data: 'UpdatedDate' },
+                { data: 'Account' },
+                { data: 'Password' },
+                { data: 'Length' },
+                { data: 'Generated' },
+                { data: 'Status' },
+                {
+                    data: null,
+                    render: function (data, type, row) {
+                        return '<a href="/TenantAccountPassword/Edit/' + row.SysId + '">Edit</a> <a href="/TenantAccountPassword/Details/' + row.SysId + '">View</a> <a href="/TenantAccountPassword/Delete/' + row.SysId + '">Delete</a>';
+                    }
+                }
+            ],
+            'columnDefs': [
+                {
+                    'targets': 3,
+                    'createdCell': function (td) {
+                        $(td).addClass('hidetext');
+                    }
+                }
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            initComplete: function () {
+                $('.hidetext').mouseover(function () {
+                    $(this).css('text-security', 'none');
+                    $(this).css('-webkit-text-security', 'none');
+                    $(this).css('-moz-text-security', 'none');
+                })
+                $('.hidetext').mouseleave(function () {
+                    $(this).css('text-security', 'disc');
+                    $(this).css('-webkit-text-security', 'disc');
+                    $(this).css('-moz-text-security', 'disc');
+                })
+            }
+        })
+        console.log(err)
+    })
+</script>
