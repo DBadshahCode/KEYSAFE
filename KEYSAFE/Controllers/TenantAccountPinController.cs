@@ -10,6 +10,7 @@ using System.Text;
 
 namespace KEYSAFE.Controllers
 {
+    [Authorize]
     public class TenantAccountPinController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -17,7 +18,7 @@ namespace KEYSAFE.Controllers
         public ActionResult Index()
         {
             var tenantAccountPins = _context.TenantAccountPins.Include(o => o.TenantAccounts).ToList();
-            return View("List", tenantAccountPins);
+            return View(tenantAccountPins);
         }
 
         public JsonResult GetTenantAccountPins()
@@ -98,7 +99,7 @@ namespace KEYSAFE.Controllers
 
                 _context.SaveChanges();
             }
-            return RedirectToAction("Index", "Pin");
+            return RedirectToAction("Index", "TenantAccountPin");
         }
 
         public ActionResult Details(Guid id)
@@ -134,7 +135,7 @@ namespace KEYSAFE.Controllers
             var tenantAccountPin = _context.TenantAccountPins.SingleOrDefault(o => o.SysId == id);
             _context.TenantAccountPins.Remove(tenantAccountPin);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Pin");
+            return RedirectToAction("Index", "TenantAccountPin");
         }
     }
 }

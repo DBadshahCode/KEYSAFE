@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace KEYSAFE.Controllers
 {
+    [Authorize]
     public class TenantAccountController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -135,7 +136,7 @@ namespace KEYSAFE.Controllers
             var tenantAccount = _context.TenantAccounts.SingleOrDefault(o => o.SysId == id);
             _context.TenantAccounts.Remove(tenantAccount);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Index", "TenantAccount");
         }
     }
 }

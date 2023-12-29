@@ -10,6 +10,7 @@ using System.Text;
 
 namespace KEYSAFE.Controllers
 {
+    [Authorize]
     public class TenantAccountPasswordController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -100,7 +101,7 @@ namespace KEYSAFE.Controllers
 
                 _context.SaveChanges();
             }
-            return RedirectToAction("Index", "Password");
+            return RedirectToAction("Index", "TeanantAccountPassword");
         }
 
         public ActionResult Details(Guid id)
@@ -136,7 +137,7 @@ namespace KEYSAFE.Controllers
             var tenantAccountPassword = _context.TenantAccountPasswords.SingleOrDefault(o => o.SysId == id);
             _context.TenantAccountPasswords.Remove(tenantAccountPassword);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Password");
+            return RedirectToAction("Index", "TenantAccountPassword");
         }
     }
 }

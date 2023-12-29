@@ -8,6 +8,7 @@ using System.Web.Script.Serialization;
 
 namespace KEYSAFE.Controllers
 {
+    [Authorize]
     public class TenantAccountWebsiteController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
